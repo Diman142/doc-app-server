@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const mysql = require('mysql')
 
+const PORT = process.env.PORT || 3001;
 
 const db = mysql.createPool({
   host: 'us-cdbr-east-03.cleardb.com',
@@ -31,6 +32,6 @@ app.get('/api/get', (req, res) => {
   });
 });
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
   console.log('Server is Running')
 })
