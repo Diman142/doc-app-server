@@ -7,10 +7,12 @@ const PORT = process.env.PORT || 3001;
 
 const db = mysql.createPool({
   host: 'us-cdbr-east-03.cleardb.com',
-  user: 'b0e6e1e2011322',
-  password: 'cdeace8d',
-  database: 'heroku_67d187db369a4a4',
+  user: 'b2c6a111986393',
+  password: 'c8ed53dc',
+  database: 'heroku_6b69735d4b86f1a',
 });
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -21,7 +23,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/get', (req, res) => {
-  const sqlSelect = 'SELECT * FROM names';
+  const sqlSelect = 'SELECT * FROM doctors';
   db.query(sqlSelect, (err, result) => {
     if (err) {
       res.send(err);
