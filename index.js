@@ -34,6 +34,21 @@ app.get('/api/get', (req, res) => {
   });
 });
 
+
+app.get('/api/gettimes', (req, res) => {
+  const sqlSelect = 'SELECT * FROM doctors';
+
+  console.log(req.body)
+  db.query(sqlSelect, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(result)
+      res.send(result);
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log('Server is Running')
 })
