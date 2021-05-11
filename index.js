@@ -49,10 +49,6 @@ function getTime(time) {
   return t.join(":") + ":00"
 }
 
-
-
-
-
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,17 +57,17 @@ app.get('/', (req, res) => {
   res.end('<h1>Hello Server</h1>');
 });
 
-app.get('/api/get', (req, res) => {
-  const sqlSelect = 'SELECT * FROM doctors';
-  db.query(sqlSelect, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      console.log(result)
-      res.send(result)
-    }
-  });
-});
+// app.get('/api/get', (req, res) => {
+//   const sqlSelect = 'SELECT * FROM doctors';
+//   db.query(sqlSelect, (err, result) => {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       console.log(result)
+//       res.send(result)
+//     }
+//   });
+// });
 
 
 app.get('/api/gettimes', (req, res) => {
@@ -79,7 +75,7 @@ app.get('/api/gettimes', (req, res) => {
   let date = req.query.date.split('.').reverse().join('-')
   let docName = req.query.doc.split(' ')[0]
 
-  let sqlSelect = `SELECT RecTime FROM doctors.receptions WHERE RecDate = "${date}" AND DocId = (SELECT DocId FROM doctors.doctors WHERE name = "${docName}");`
+  let sqlSelect = `SELECT RecTime FROM receptions WHERE RecDate = "${date}" AND DocId = (SELECT DocId FROM doctors WHERE name = "${docName}");`
 
   db.query(sqlSelect, (err, result) => {
     if (err) {
@@ -98,7 +94,7 @@ app.post('/api/insert', (req, res) => {
   const time = getTime(req.body.data.time)
   const recId = Date.now().toString().substr(-5)
 
-  let sqlInsert = `INSERT INTO doctors.receptions (DocId, RecDate, RecTime, Complaints, Patient, RecId) VALUES ("${docId}", "${date}", "${time}", "${req.body.data.complaints}", "${req.body.data.patient}", "${recId}");`
+  let sqlInsert = `INSERT INTO receptions (DocId, RecDate, RecTime, Complaints, Patient, RecId) VALUES ("${docId}", "${date}", "${time}", "${req.body.data.complaints}", "${req.body.data.patient}", "${recId}");`
 
   db.query(sqlInsert, (err, result) => {
     if (err) {
@@ -112,7 +108,7 @@ app.post('/api/insert', (req, res) => {
 
 app.get('/api/getdocs', (req, res) => {
 
-  const sqlSelect = `SELECT * FROM doctors.doctors;`
+  const sqlSelect = `SELECT * FROM doctors;`
 
   db.query(sqlSelect, (err, result) => {
     if (err) {
@@ -129,7 +125,7 @@ app.get('/api/getreceptions', (req, res) => {
   const date = req.query.date.split('.').reverse().join('-')
   const docName = req.query.doc.split(' ')[0]
 
-  let sqlSelect = `SELECT RecTime, Complaints, Patient, RecId FROM doctors.receptions WHERE RecDate = "${date}" AND DocId = (SELECT DocId FROM doctors.doctors WHERE name = "${docName}");`
+  let sqlSelect = `SELECT RecTime, Complaints, Patient, RecId FROM receptions WHERE RecDate = "${date}" AND DocId = (SELECT DocId FROM doctors WHERE name = "${docName}");`
 
   db.query(sqlSelect, (err, result) => {
     if (err) {
@@ -143,7 +139,7 @@ app.get('/api/getreceptions', (req, res) => {
 
 app.get('/api/delete', (req, res) => {
 
-  let sqldelete = `DELETE FROM doctors.receptions WHERE RecId="${req.query.id}";`
+  let sqldelete = `DELETE FROM receptions WHERE RecId="${req.query.id}";`
 
   console.log(sqldelete)
 
