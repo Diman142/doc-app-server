@@ -13,6 +13,8 @@ const db = mysql.createPool({
   database: 'heroku_6b69735d4b86f1a',
 });
 
+//Локальный конфиг базы данных
+
 // const db = mysql.createPool({
 //   host: 'localhost',
 //   user: 'root',
@@ -57,23 +59,11 @@ app.get('/', (req, res) => {
   res.end('<h1>Hello Server</h1>');
 });
 
-// app.get('/api/get', (req, res) => {
-//   const sqlSelect = 'SELECT * FROM doctors';
-//   db.query(sqlSelect, (err, result) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       console.log(result)
-//       res.send(result)
-//     }
-//   });
-// });
-
 
 app.get('/api/gettimes', (req, res) => {
 
-  let date = req.query.date.split('.').reverse().join('-')
-  let docName = req.query.doc.split(' ')[0]
+  const date = req.query.date.split('.').reverse().join('-')
+  const docName = req.query.doc.split(' ')[0]
 
   let sqlSelect = `SELECT RecTime FROM receptions WHERE RecDate = "${date}" AND DocId = (SELECT DocId FROM doctors WHERE name = "${docName}");`
 
