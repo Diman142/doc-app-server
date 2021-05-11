@@ -6,11 +6,18 @@ var bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3001;
 
+const db = mysql.createPool({
+  host: 'us-cdbr-east-03.cleardb.com',
+  user: 'b2c6a111986393',
+  password: 'c8ed53dc',
+  database: 'heroku_6b69735d4b86f1a',
+});
+
 // const db = mysql.createPool({
-//   host: 'us-cdbr-east-03.cleardb.com',
-//   user: 'b2c6a111986393',
-//   password: 'c8ed53dc',
-//   database: 'heroku_6b69735d4b86f1a',
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'Pr0gresstech00++',
+//   database: 'doctors',
 // });
 
 
@@ -43,12 +50,7 @@ function getTime(time) {
 }
 
 
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'Pr0gresstech00++',
-  database: 'doctors',
-});
+
 
 
 app.use(cors());
